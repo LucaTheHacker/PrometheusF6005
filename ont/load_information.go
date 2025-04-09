@@ -2,6 +2,7 @@ package ont
 
 import (
 	"encoding/xml"
+	"errors"
 	"strconv"
 	"time"
 )
@@ -38,6 +39,10 @@ func (s *Session) LoadDeviceInfo() (*DeviceInfo, error) {
 	var result InformationResponse
 	if err := xml.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
+	}
+
+	if result.IFERRORSTR == "SessionTimeout" {
+		return nil, errors.New("session timeout")
 	}
 
 	return result.Convert(), nil

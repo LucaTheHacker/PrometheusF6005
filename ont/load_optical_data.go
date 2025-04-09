@@ -2,6 +2,7 @@ package ont
 
 import (
 	"encoding/xml"
+	"errors"
 	"strconv"
 	"time"
 )
@@ -30,6 +31,10 @@ func (s *Session) LoadOpticalData() (*OpticalInfo, error) {
 	var result OpticalDataResponse
 	if err := xml.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, err
+	}
+
+	if result.IFERRORSTR == "SessionTimeout" {
+		return nil, errors.New("session timeout")
 	}
 
 	return result.Convert(), nil
