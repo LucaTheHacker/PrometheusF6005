@@ -2,25 +2,35 @@ package main
 
 import (
 	"PrometheusF6005/ont"
-	"encoding/json"
+	internalPrometheus "PrometheusF6005/prometheus"
+	"cmp"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
-	session, err := ont.Login("http://192.168.1.1", "admin", "admin")
+	session, err := ont.Login(
+		cmp.Or(os.Getenv("ENDPOINT"), "http://192.168.1.1"),
+		cmp.Or(os.Getenv("ONT_USERNAME"), "admin"),
+		cmp.Or(os.Getenv("ONT_PASSWORD"), "admin"),
+	)
 	if err != nil {
 		fmt.Println("Login failed:", err)
 		return
 	}
 
-	data, _ := session.LoadOpticalData()
-	pl, _ := json.Marshal(data)
-	fmt.Println(string(pl))
-	data2, err := session.LoadLanInfo()
-	pl, _ = json.Marshal(data2)
-	fmt.Println(string(pl))
-	data3, _ := session.LoadDeviceInfo()
-	pl, _ = json.Marshal(data3)
-	fmt.Println(string(pl))
-	return
+	collector := internalPrometheus.NewONTCollector(session)
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(collector)
+
+	http.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{
+		EnableOpenMetrics: false,
+	}))
+
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
