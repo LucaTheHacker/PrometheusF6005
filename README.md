@@ -26,4 +26,9 @@ Example docker-compose section:
       - 80
 ```
 
+## Notes
+
+Software may break if you log in your ONT web interface, or if you make any kind of HTTP request to your ONT.  
+For some reason, ZTE decided that the ONT should not be able to handle multiple sessions at the same time.
+
 ###### The code sucks, I know. I wrote it with a bad headache and no sleep.
