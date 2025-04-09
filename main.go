@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -15,7 +16,7 @@ import (
 
 func main() {
 	session, err := ont.Login(
-		cmp.Or(os.Getenv("ENDPOINT"), "http://192.168.1.1"),
+		cmp.Or(strings.TrimRight(os.Getenv("ENDPOINT"), "/"), "http://192.168.1.1"),
 		cmp.Or(os.Getenv("ONT_USERNAME"), "admin"),
 		cmp.Or(os.Getenv("ONT_PASSWORD"), "admin"),
 	)
