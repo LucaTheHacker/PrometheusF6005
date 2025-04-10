@@ -94,6 +94,12 @@ var (
 		[]string{"type"},
 		nil,
 	)
+	opticalUptimeDesc = prometheus.NewDesc(
+		"optical_uptime",
+		"GPON uptime in seconds",
+		nil,
+		nil,
+	)
 	rfPowerDesc = prometheus.NewDesc(
 		"optical_rf_power",
 		"RF power levels in dBm",

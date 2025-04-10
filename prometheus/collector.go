@@ -35,6 +35,7 @@ func (c *ONTCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- opticalBiasCurrentDesc
 	ch <- opticalStatusDesc
 	ch <- rfPowerDesc
+	ch <- opticalUptimeDesc
 }
 
 // Collect implements prometheus.Collector
@@ -251,6 +252,11 @@ func (c *ONTCollector) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(opticalInfo.VideoRXPower),
 			"rx",
+		)
+		ch <- prometheus.MustNewConstMetric(
+			opticalUptimeDesc,
+			prometheus.CounterValue,
+			float64(opticalInfo.Uptime),
 		)
 	}
 }
