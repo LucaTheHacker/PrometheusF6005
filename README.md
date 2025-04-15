@@ -4,11 +4,12 @@ A theoretically simple way to export metrics from your ZTE F6005v3 ONT to Promet
 
 ## Required environment variables
 
-| Name       | Description             | Default Value      |
-|------------|-------------------------|--------------------|
-| `ENDPOINT` | HTTP address to the ONT | http://192.168.1.1 |
-| `USERNAME` | Username for the ONT    | admin              |
-| `PASSWORD` | Password for the ONT    | admin              |
+| Name             | Description                  | Default Value      |
+|------------------|------------------------------|--------------------|
+| `ENDPOINT`       | HTTP address to the ONT      | http://192.168.1.1 |
+| `ONT_USERNAME`   | Username for the ONT         | admin              |
+| `ONT_PASSWORD`   | Password for the ONT         | admin              |
+| `ONT_SLEEP_QUIT` | Time to wait before quitting | 5s                 |
 
 ## Usage
 
@@ -29,6 +30,8 @@ Example docker-compose section:
 ## Notes
 
 Software may break if you log in your ONT web interface, or if you make any kind of HTTP request to your ONT.  
-For some reason, ZTE decided that the ONT should not be able to handle multiple sessions at the same time.
+For some reason, ZTE decided that the ONT should not be able to handle multiple sessions at the same time.  
+To automatically recover from this, when `collector.go` receives and error will wait for `ONT_SLEEP_QUIT` seconds and
+kill the program, forcing it to restart due to docker container policies.
 
 ###### The code sucks, I know. I wrote it with a bad headache and no sleep.
