@@ -14,7 +14,7 @@ type OpticalInfo struct {
 	Uptime                   int
 	OpticalModuleTemperature float64
 	OpticalModuleVoltage     int
-	OpticalModuleBiasCurrent int
+	OpticalModuleBiasCurrent float64
 	RFTXPower                int
 	VideoRXPower             int
 	TXPower                  float64
@@ -150,7 +150,7 @@ func (result OpticalDataResponse) Convert() *OpticalInfo {
 
 			switch name {
 			case "Current":
-				current, err := strconv.Atoi(value)
+				current, err := strconv.ParseFloat(value, 10)
 				if err == nil {
 					opticalInfo.OpticalModuleBiasCurrent = current
 				}

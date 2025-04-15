@@ -242,7 +242,7 @@ func (c *ONTCollector) Collect(ch chan<- prometheus.Metric) {
 	ch <- prometheus.MustNewConstMetric(
 		opticalBiasCurrentDesc,
 		prometheus.GaugeValue,
-		float64(opticalInfo.OpticalModuleBiasCurrent),
+		opticalInfo.OpticalModuleBiasCurrent,
 	)
 
 	// Status metrics
