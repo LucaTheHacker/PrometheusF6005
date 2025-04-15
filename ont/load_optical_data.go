@@ -95,7 +95,7 @@ func (result OpticalDataResponse) Convert() *OpticalInfo {
 	for i, name := range result.OBJLOSINFOID.Instance.ParaName {
 		if i < len(result.OBJLOSINFOID.Instance.ParaValue) {
 			value := result.OBJLOSINFOID.Instance.ParaValue[i]
-			if name == "LOS" {
+			if name == "LosInfo" {
 				los, err := strconv.Atoi(value)
 				if err == nil {
 					opticalInfo.LoS = los
