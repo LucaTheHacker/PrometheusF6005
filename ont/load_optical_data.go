@@ -22,6 +22,7 @@ type OpticalInfo struct {
 }
 
 func (s *Session) LoadOpticalData() (*OpticalInfo, error) {
+	_, _ = s.Get(s.Endpoint + "/?_type=menuView&_tag=ponopticalinfo&Menu3Location=0&_=1744739411804")
 	resp, err := s.Get(s.Endpoint + "/?_type=menuData&_tag=optical_info_lua.lua&_=" + strconv.FormatInt(time.Now().Unix(), 10))
 	if err != nil {
 		return nil, err
