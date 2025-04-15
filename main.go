@@ -24,6 +24,7 @@ func main() {
 		fmt.Println("Login failed:", err)
 		return
 	}
+	log.Println("Login succeeded")
 
 	collector := internalPrometheus.NewONTCollector(session)
 	registry := prometheus.NewRegistry()
