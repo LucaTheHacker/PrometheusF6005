@@ -47,7 +47,7 @@ func Login(endpoint, username, password string) (*Session, error) {
 		"_sessionTOKEN": {sessionToken},
 	}
 
-	resp, err := session.Post("http://192.168.1.1/?_type=loginData&_tag=login_entry", "application/x-www-form-urlencoded; charset=UTF-8", strings.NewReader(payload.Encode()))
+	resp, err := session.Post(endpoint+"/?_type=loginData&_tag=login_entry", "application/x-www-form-urlencoded; charset=UTF-8", strings.NewReader(payload.Encode()))
 	if err != nil {
 		panic(err)
 	}
@@ -59,7 +59,7 @@ func Login(endpoint, username, password string) (*Session, error) {
 	}
 
 	if result.LoginNeedRefresh {
-		_, _ = session.Get("http://192.168.1.1/")
+		_, _ = session.Get(endpoint + "/")
 		return session, nil
 	}
 	return nil, errors.New("failed to login")
